@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Players</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0e7ff 0%, #f2f6fc 100%);
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      background: #fff;
+      margin-top: 3rem;
+      padding: 2rem 2.5rem;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(44,62,80,0.12), 0 1.5px 6px rgba(44,62,80,0.07);
+      width: 90%;
+      max-width: 700px;
+    }
+    h2 {
+      text-align: center;
+      color: #2d3a4b;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: #f7fafc;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+    }
+    th {
+      background: #1976d2;
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    tr:nth-child(even) {
+      background: #e3f2fd;
+    }
+    tr:hover {
+      background: #bbdefb;
+      transition:  0.2s;
+    }
+    .empty-msg {
+      text-align: center;
+      color: #888;
+      margin-top: 2rem;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>All Players</h2>
+    <table id="players-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Nationality</th>
+          <th>Age</th>
+          <th>Team</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Server injects users here -->
+        <% if (players && players.length > 0) { %>
+          <% players.forEach(function(player) { %>
+            <tr>
+              <td><%= player.name %></td>
+              <td><%= player.position %></td>
+              <td><%= player.nationality %></td>
+              <td><%= player.age %></td>
+              <td>
+                <% if (player.team && player.team.name) { %>
+                  <%= player.team.name %>
+                <% } else { %>
+                  N/A
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td colspan="5" class="empty-msg">No players found.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
