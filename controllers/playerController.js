@@ -12,10 +12,12 @@ const createPlayer = async (req, res) => {
 
 // Get all players
 const getPlayers = async (req, res) => {
+  console.log('Fetching players...');
   try {
     const players = await Player.find().populate('team');
     res.render('players', { players });
   } catch (err) {
+    console.error(err); 
     res.status(500).json({ message: err.message });
   }
 };
