@@ -16,6 +16,7 @@ router.get('/register', (req, res) => {
 });
 //Login
 router.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'login.html'));
+  //res.sendFile(path.join(__dirname, 'views', 'login.html'));
+  res.render('login', { title: 'Login' });
 });
 module.exports = router;
