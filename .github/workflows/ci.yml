@@ -24,3 +24,7 @@ jobs:
 
       - name: Chạy test
         run: npm test
+
+      - name: Deploy lên Render nếu test pass
+        if: success()
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
