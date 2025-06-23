@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create New Player</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0e7ff 0%, #f2f6fc 100%);
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      background: #fff;
+      margin-top: 3rem;
+      padding: 2rem 2.5rem;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(44,62,80,0.12), 0 1.5px 6px rgba(44,62,80,0.07);
+      width: 90%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #2d3a4b;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 0.5rem;
+      color: #1976d2;
+      font-weight: 500;
+    }
+    input {
+      padding: 0.7rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #b0bec5;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      background: #1976d2;
+      color: #fff;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create New Player</h2>
+    <form id="createPlayerForm" autocomplete="off">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="position">Position:</label>
+      <input type="text" id="position" name="position" required>
+
+      <label for="nationality">Nationality:</label>
+      <input type="text" id="nationality" name="nationality">
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age">
+
+      <!-- <label for="team">Team ID:</label>
+      <input type="text" id="team" name="team"> -->
+
+      <button type="submit">Create Player</button>
+      <div id="createError" style="color:red; margin-top:10px;"></div>
+    </form>
+  </div>
+  <script>
+    document.getElementById('createPlayerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const position = document.getElementById('position').value;
+      const nationality = document.getElementById('nationality').value;
+      const age = document.getElementById('age').value;
+      // const team = document.getElementById('team').value;
+      const errorDiv = document.getElementById('createError');
+      errorDiv.textContent = '';
+      const token = localStorage.getItem('token');
+      if (!token) {
+        errorDiv.textContent = 'Bạn chưa đăng nhập hoặc token đã hết hạn!';
+        return;
+      }
+      try {
+        const res = await fetch('/football/players', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ name, position, nationality, age })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          // alert('Tạo cầu thủ thành công!');
+          window.location.href = '/football/players';
+        } else {
+          errorDiv.textContent = data.message || 'Tạo cầu thủ thất bại';
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Lỗi kết nối server';
+      }
+    });
+  </script>
+</body>
+</html>

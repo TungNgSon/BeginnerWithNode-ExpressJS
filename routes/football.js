@@ -10,6 +10,7 @@ const authenticate = require('../middlewares/auth');
 // Player routes
 router.post('/players',authenticate, playerController.createPlayer);
 router.get('/players', playerController.getPlayers);
+router.get('/players/new', playerController.getCreatePlayerForm);
 
 // Team routes
 router.post('/teams',authenticate, teamController.createTeam);

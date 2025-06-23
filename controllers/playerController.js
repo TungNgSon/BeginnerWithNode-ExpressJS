@@ -22,4 +22,9 @@ const getPlayers = async (req, res) => {
   }
 };
 
-module.exports = { createPlayer, getPlayers };
+// Render create player form
+const getCreatePlayerForm = (req, res) => {
+  res.render('createPlayer');
+};
+
+module.exports = { createPlayer, getPlayers, getCreatePlayerForm };
